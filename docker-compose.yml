@@ -1,0 +1,46 @@
+# for local development
+version: "3.7"
+
+volumes:
+  ifc_dw_postgres:
+    external: true
+
+networks:
+  ifc_dw:
+    external: true
+
+services:
+  db:
+    container_name: ifc_dw_postgres
+    image: "postgres:13.4-alpine"
+    restart: always
+    volumes:
+      - ifc_dw_postgres:/var/lib/postgresql/data
+      - /var/docker/php.ini-development:/usr/local/etc/php/php.ini-development
+      - /var/docker/php.ini-production:/usr/local/etc/php/php.ini-production
+    environment:
+      POSTGRES_DB: dw1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - 5432:5432
+    networks:
+      - ifc_dw
+  app:
+    container_name: cerveja
+    build:
+      context: .
+    ports:
+      - 8080:80
+      - 9443:443
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - ifc_dw
+    depends_on:
+      - db
