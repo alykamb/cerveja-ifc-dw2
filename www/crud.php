@@ -59,14 +59,54 @@ class Crud
     public function findAll()
     {
         $sql = "SELECT * FROM $this->table";
-        return $this->db->query($sql)[0];
+        return $this->db->query($sql);
     }
 
     public function findAllPage(int $page = 0, int $perPage = 10)
     {
         $offset = $page * $perPage;
         $sql = "SELECT * FROM $this->table LIMIT $perPage OFFSET $offset";
-        return $this->db->query($sql)[0];
+        return $this->db->query($sql);
+    }
+
+    public function remove(int $id)
+    {
+        $sql = "DELETE FROM $this->table WHERE id = $id";
+        $this->db->query($sql);
+        return true;
+    }
+
+    public function update(int $id, $data)
+    {
+        $sql = "UPDATE $this->table SET ";
+        $fields = "";
+
+        foreach ($data as $key => $value) {
+            if (is_object($value) && $value instanceof Field) {
+                if ($key == "id") {
+                    continue;
+                }
+                if (isset($value->value)) {
+                    $fields .= "$key = ";
+                    if ($value->type == "text") {
+                        $fields .= "'$value->value',";
+                    } else {
+                        $fields .= "$value->value,";
+                    }
+                }
+            }
+        }
+
+        if (strlen($fields) > 0) {
+            $fields = substr($fields, 0, -1);
+        } else {
+            throw new Exception("Valores inválidos para atualização de $this->table");
+        }
+
+        $sql .= $fields;
+
+        $sql .= " WHERE id = $id";
+        echo $sql;
     }
 };
 
