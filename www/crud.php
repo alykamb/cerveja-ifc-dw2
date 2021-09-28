@@ -38,8 +38,7 @@ class Crud
         } else {
             throw new Exception("Valores inválidos para cadastro de $this->table");
         }
-        '
-'
+
         if (strlen($values) > 0) {
             $values = substr($values, 0, -1);
         } else {
