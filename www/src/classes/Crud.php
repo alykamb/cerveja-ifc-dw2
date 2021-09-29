@@ -24,10 +24,10 @@ class Crud
                 }
                 if (isset($value->value)) {
                     $columns .= "$key,";
-                    if ($value->type == "text") {
-                        $values .= "'$value->value',";
-                    } else {
+                    if ($value->type == "number") {
                         $values .= "$value->value,";
+                    } else {
+                        $values .= "'$value->value',";
                     }
                 }
             }
@@ -45,9 +45,10 @@ class Crud
             return NUll;
         }
 
-        $sql .= "$columns) VALUES ($values);";
+        $sql .= "$columns) VALUES ($values) RETURNING *;";
 
-        $this->db->query($sql);
+        $rows = $this->db->query($sql);
+        return $rows[0];
     }
 
     public function findById(int $id)
@@ -88,10 +89,10 @@ class Crud
                 }
                 if (isset($value->value)) {
                     $fields .= "$key = ";
-                    if ($value->type == "text") {
-                        $fields .= "'$value->value',";
-                    } else {
+                    if ($value->type == "number") {
                         $fields .= "$value->value,";
+                    } else {
+                        $fields .= "'$value->value',";
                     }
                 }
             }
@@ -106,7 +107,8 @@ class Crud
         $sql .= $fields;
 
         $sql .= " WHERE id = $id";
-        echo $sql;
+        $this->db->query($sql);
+        return $this->findById($id);
     }
 };
 
