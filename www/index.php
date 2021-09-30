@@ -1,18 +1,10 @@
 <?php
-require_once("config.php");
-?>
+require_once("src/main.php");
 
-<!DOCTYPE html>
-<html lang="en">
-<?= c_head(); ?>
 
-<body>
-    <?= c_header(); ?>
-    <div>
-        <div class="hero">
-            IMAGEM BONITA AQUI
-        </div>
-    </div>
-</body>
-
-</html>
+if (sizeOf($path)) {
+    $page = "{$path[0]}Page";
+    $page();
+} else {
+    home_page();
+}

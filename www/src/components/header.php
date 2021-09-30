@@ -7,7 +7,7 @@ function c_header()
             <div class="home">
                 <h1><?= $GLOBALS['title'] ?></h1>
             </div>
-            <a href="/cervejarias.php" class="nav-link">
+            <a href="/cervejarias" class="nav-link">
                 Cervejarias
             </a>
             <a href="/cervejas" class="nav-link">

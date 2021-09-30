@@ -1,67 +1,36 @@
 <?php
-require_once("../src/main.php");
+
 $GLOBALS['title'] = "Nova Cervejaria";
 
 $var = 'cervejarias';
-$success = 'Cervejaria adicionada com sucesso';
+$success = function ($d) {
+    return "Cervejaria {$d->nome->value} adicionada com sucesso";
+};
 $new = 'Adicionar nova cervejaria';
 
 $data = new Cervejaria();
 $data_end = new Endereco();
 $status = 'input';
+$action = function ($data) use ($cervejarias) {
+    ($cervejarias)->create($data);
+};
 
-if ($_POST['cadastrar']) {
-    try {
-        foreach ($data as $key => $prop) {
-            $data->$key->value = $_POST[$key];
-        }
-
-        foreach ($data_end as $key => $prop) {
-            $data_end->$key->value = $_POST[$key];
-        }
-        var_dump($data);
-        $new_end = $enderecos->create($data_end);
-        $data->endereco_id->value = $new_end['id'];
-        $cervejarias->create($data);
-
-        $status = 'success';
-    } catch (Exception $e) {
-        var_dump($e);
-        $status = 'error';
+$beforeSave = function ($post) use ($data_end, $enderecos, $data) {
+    foreach ($data_end as $key => $prop) {
+        $data_end->$key->value = $post[$key];
     }
-}
 
-foreach ($data as $key => $prop) {
-    $data->$key->value = $_POST[$key];
-}
+    $new_end = $enderecos->create($data_end);
+    $data->endereco_id->value = $new_end['id'];
+};
 
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<?= c_head(); ?>
-
-
-<body>
-    <?= c_header(); ?>
-    <?php
-    if ($status == 'success') {
-        foreach ($data_end as $key => $prop) {
-            $data->$key = $prop;
+$beforeRender = function () use ($data_end, $data) {
+    foreach ($data_end as $key => $prop) {
+        if ($key == 'id') {
+            continue;
         }
-    ?>
-        <div><b>Cervejaria <?= $data->nome->value ?> adicionada com sucesso!</b></div>
-    <?php
-    } else {
-        foreach ($data_end as $key => $prop) {
-            $data->$key = $prop;
-        }
-        echo createFormForInstance('Adicionar nova cervejaria', '/cervejarias/novo.php', $data);
+        $data->$key = $prop;
     }
-    ?>
+};
 
-
-</body>
-
-</html>
+createFormPage();
