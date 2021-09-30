@@ -1,12 +1,12 @@
 <?php
 
-function createForm($header, $path, $contents)
+function createForm($header, $contents)
 {
     ob_start();
 ?>
     <div>
         <h3 class="text-lg font-medium leading-6 text-gray-900"><?= $header ?></h3>
-        <form action="<?= $path ?>" method="POST" autocomplete="off">
+        <form action="<?= $_GET['path'] ?>" method="POST" autocomplete="off">
             <div class="form-input">
                 <?= $contents ?>
             </div>
@@ -59,10 +59,10 @@ function createInputsForFileds($data)
     return $contents;
 }
 
-function createFormForInstance($header, $path, $data, $extras = '')
+function createFormForInstance($header, $data, $extras = '')
 {
     $contents = createInputsForFileds($data);
-    return createForm($header, $path, $contents . $extras);
+    return createForm($header, $contents . $extras);
 }
 
 ?>

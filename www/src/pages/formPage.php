@@ -1,9 +1,7 @@
 <?php
 
-function createFormPage()
+function createFormPage($data, $new, $success, $status, $beforeSave, $beforeRender, $action)
 {
-    global  $data, $new, $success, $status, $url, $beforeSave, $beforeRender, $action;
-
     if ($_POST['cadastrar']) {
         try {
             foreach ($data as $key => $prop) {
@@ -47,7 +45,7 @@ function createFormPage()
             <div><b><?= $success($data) ?></b></div>
         <?php
         } else {
-            echo createFormForInstance($new, $url, $data);
+            echo createFormForInstance($new, $data);
         }
         ?>
     </body>
