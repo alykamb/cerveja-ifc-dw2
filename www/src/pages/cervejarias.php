@@ -94,11 +94,14 @@ function cervejariasAdicionar()
 
 function cervejariasPage()
 {
-    global $path;
+    global $path, $cervejarias;
     $GLOBALS['title'] = "Cervejarias";
 
     $var = 'cervejarias';
     $data = new Cervejaria();
+
+
+    Cervejaria::fromData($cervejarias->findById(1));
 
     switch ($path[1]) {
         case 'novo':

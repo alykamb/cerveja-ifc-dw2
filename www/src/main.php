@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 require_once("classes/Crud.php");
 require_once("classes/DB.php");
 require_once("classes/Field.php");
+require_once("classes/Instance.php");
 
 $files = array_merge(
     glob(dirname(__FILE__) . '/classes/*.php'),

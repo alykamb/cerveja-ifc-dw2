@@ -10,7 +10,11 @@ function tablePage($var, $data)
         $$var->remove(intval($path[2]));
     }
 
-    $items = $$var->findAll();
+    $items = [];
+
+    foreach ($$var->findAll() as $key => $item) {
+        $items[] = $item;
+    }
 
     $editar = function ($id) use ($var) {
         return "/$var/editar/$id";

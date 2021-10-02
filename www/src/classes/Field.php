@@ -16,13 +16,16 @@ class Field
         bool $required = false,
         string $show = "table",
         $validator = NULL,
-        $options = NULL
+        $getOptions = NULL
     ) {
         $this->name = $name;
         $this->type = $type;
         $this->required = $required;
         $this->show = $show;
-        $this->options = $options;
+
+        if (isset($getOptions) && $getOptions != NULL) {
+            $this->options = $getOptions();
+        }
         if (isset($validator) && $validator instanceof Closure) {
             $this->validator = $validator;
         }

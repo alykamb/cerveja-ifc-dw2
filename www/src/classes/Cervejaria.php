@@ -1,6 +1,6 @@
 <?php
 
-class Cervejaria
+class Cervejaria extends Instance
 {
     public Field $id;
     public Field $nome;
