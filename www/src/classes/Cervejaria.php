@@ -10,16 +10,15 @@ class Cervejaria extends Instance
     function __construct()
     {
         global $minLength;
-        $this->id = new Field("id", "number", false);
-        $this->nome = new Field("Nome", "text", true, "all", $minLength(3));
-        $this->endereco_id = new Field("Endereço", "number", false, "table");
+        $this->id = new Field("id", "number:number", false);
+        $this->nome = new Field("Nome", "string:text", true, "all", $minLength(3));
+        $this->endereco_id = new Field("Endereço", "number:number", false, "table");
     }
 
     function loadRelations()
     {
         global $enderecos;
         if ($this->endereco_id) {
-            var_dump($enderecos->findById($this->endereco_id->value));
             $this->endereco = Endereco::fromData($enderecos->findById($this->endereco_id->value));
         }
     }

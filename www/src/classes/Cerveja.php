@@ -10,11 +10,11 @@ class Cerveja extends Instance
     function __construct()
     {
         global $minLength;
-        $this->id = new Field("id", "number", false, false);
-        $this->nome = new Field("nome", "text", true, true, $minLength(3));
+        $this->id = new Field("Id", "number:number", false, "table");
+        $this->nome = new Field("Nome", "string:text", true, true, $minLength(3));
 
-        $this->cervejaria_id = new Field("cervejaria_id", "number", true, "all", NULL, function () {
-            $this->getOptionsCervejarias();
+        $this->cervejaria_id = new Field("Cervejaria", "number:select", true, "all", NULL, function () {
+            return $this->getOptionsCervejarias();
         });
     }
 
@@ -22,7 +22,7 @@ class Cerveja extends Instance
     {
         global $cervejarias;
         if ($this->cervejaria_id) {
-            $this->cervejaria = Cerveja::fromData($cervejarias->findById($this->cervejaria_id->value));
+            $this->cervejaria = Cervejaria::fromData($cervejarias->findById($this->cervejaria_id->value));
         }
     }
 
@@ -31,8 +31,9 @@ class Cerveja extends Instance
         global $cervejarias;
         $options = [];
         foreach ($cervejarias->findAll() as $row) {
-            $options[$row['id']] = $row['nome'];
+            $options[] = ["value" => $row['id'], "label" => $row['nome']];
         }
+        return $options;
     }
 
     function getHeaders($withRelations = true)
@@ -40,16 +41,8 @@ class Cerveja extends Instance
         if (!$withRelations) {
             return ['id' => 'Id', 'nome' => 'Nome', 'cervejaria_id' => 'Cervejaria'];
         }
-        $cervejariaHeaders = $this->cervejaria->getHeaders();
-        $cervejariaItems = [];
 
-        foreach (array_filter(array_keys($cervejariaHeaders), function ($key) {
-            return $key != 'id';
-        }) as $key) {
-            $cervejariaItems[$key] = $cervejariaHeaders[$key];
-        }
-
-        return array_merge(['id' => 'Id', 'nome' => 'Nome'], $cervejariaItems);
+        return array_merge(['id' => 'Id', 'nome' => 'Nome', 'cervejaria_nome' => 'Cervejaria']);
     }
 
     function getValues($withRelations = true)
@@ -57,7 +50,7 @@ class Cerveja extends Instance
         if (!$withRelations) {
             return ['id' => $this->id->value, 'nome' => $this->nome->value, 'cervejaria_id' => $this->cervejaria_id->value];
         }
-        $cervejariaValues = $this->cervejaria->getValues();
+        $cervejariaValues = $this->cervejaria->getValues(false);
         $cervejariaItems = [];
 
         foreach (array_filter(array_keys($cervejariaValues), function ($key) {
@@ -66,6 +59,6 @@ class Cerveja extends Instance
             $cervejariaItems[$key] = $cervejariaValues[$key];
         }
 
-        return array_merge(['id' => $this->id->value, 'nome' => $this->nome->value], $cervejariaItems);
+        return array_merge(['id' => $this->id->value, 'nome' => $this->nome->value, 'cervejaria_nome' => $cervejariaItems['nome']]);
     }
 }

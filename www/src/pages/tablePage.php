@@ -1,6 +1,6 @@
 <?php
 
-function tablePage($var, $items)
+function tablePage($var, $getItems)
 {
     global $$var, $path;
 
@@ -10,12 +10,18 @@ function tablePage($var, $items)
         $$var->remove(intval($path[2]));
     }
 
+    $items = $getItems();
+
     $editar = function ($id) use ($var) {
         return "/$var/editar/$id";
     };
 
     $excluir = function ($id) use ($var) {
         return "/$var/excluir/$id";
+    };
+
+    $ver = function ($id) use ($var) {
+        return "/$var/$id";
     };
 ?>
     <!DOCTYPE html>
@@ -29,7 +35,8 @@ function tablePage($var, $items)
             "/$var/novo",
             $items,
             $editar,
-            $excluir
+            $excluir,
+            $ver
         );
         ?>
     </body>

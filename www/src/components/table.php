@@ -1,6 +1,6 @@
 <?php
 
-function c_table_item($item, $keys, $editar, $excluir)
+function c_table_item($item, $keys, $editar, $excluir, $ver)
 {
 ?>
     <tr>
@@ -13,13 +13,14 @@ function c_table_item($item, $keys, $editar, $excluir)
         <td>
             <a href="<?= $editar($item['id']) ?>">editar</a>
             <a href="<?= $excluir($item['id']) ?>">excluir</a>
+            <a href="<?= $ver($item['id']) ?>">ver</a>
         </td>
     </tr>
 
 <?php
 }
 
-function c_table($novo, $items, $editar,  $excluir)
+function c_table($novo, $items, $editar,  $excluir, $ver)
 {
 ?>
     <div>
@@ -44,7 +45,7 @@ function c_table($novo, $items, $editar,  $excluir)
             </tr>
             <?php
             foreach ($items as $item) {
-                echo c_table_item($item->getValues(), array_keys($headers), $editar, $excluir);
+                echo c_table_item($item->getValues(), array_keys($headers), $editar, $excluir, $ver);
             }
             ?>
         </table>

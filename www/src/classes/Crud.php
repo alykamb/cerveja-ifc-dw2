@@ -24,7 +24,8 @@ class Crud
                 }
                 if (isset($value->value)) {
                     $columns .= "$key,";
-                    if ($value->type == "number") {
+                    [$dataType] = explode(":", $value->type);
+                    if ($dataType == "number") {
                         $values .= "$value->value,";
                     } else {
                         $values .= "'$value->value',";
@@ -57,9 +58,9 @@ class Crud
         return $this->db->query($sql)[0];
     }
 
-    public function findAll()
+    public function findAll($where = "")
     {
-        $sql = "SELECT * FROM $this->table";
+        $sql = "SELECT * FROM $this->table $where";
         return $this->db->query($sql);
     }
 
@@ -87,9 +88,10 @@ class Crud
                 if ($key == "id") {
                     continue;
                 }
+                [$dataType] = explode(":", $value->type);
                 if (isset($value->value)) {
                     $fields .= "$key = ";
-                    if ($value->type == "number") {
+                    if ($dataType == "number") {
                         $fields .= "$value->value,";
                     } else {
                         $fields .= "'$value->value',";
@@ -111,34 +113,3 @@ class Crud
         return $this->findById($id);
     }
 };
-
-
-/*
-$result = pg_exec($db_handle, $query);
-
-if ($result) {
-
-echo "The query executed successfully.<br>";
-
-echo "<h3>Print First and last name:</h3>";
-
-for ($row = 0; $row < pg_numrows($result); $row++) {
-
-$firstname = pg_result($result, $row, 'fname');
-
-echo $firstname ." ";
-
-$lastname = pg_result($result, $row, 'lname');
-
-echo $lastname ."<br>";
-
-}
-
-} else {
-
-echo "The query failed with the following error:<br>";
-
-echo pg_errormessage($db_handle);
-
-}
-*/

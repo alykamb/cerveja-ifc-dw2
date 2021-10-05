@@ -92,6 +92,13 @@ function cervejariasAdicionar()
     createFormPage($data, $formHeader, $success, $status, $beforeSave, $beforeRender, $action);
 }
 
+function cervejariasVer()
+{
+    global $path;
+
+    var_dump($path);
+}
+
 function cervejariasPage()
 {
     global $path, $cervejarias;
@@ -105,7 +112,9 @@ function cervejariasPage()
             cervejariasEditar();
             break;
         default:
-            $items = Cervejaria::fromDataList($cervejarias->findAll(), true);
-            tablePage('cervejarias', $items);
+            if (is_numeric($path[1]))
+                tablePage('cervejarias', function () use ($cervejarias) {
+                    return Cervejaria::fromDataList($cervejarias->findAll(), true);
+                });
     }
 }
