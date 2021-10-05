@@ -112,9 +112,12 @@ function cervejariasPage()
             cervejariasEditar();
             break;
         default:
-            if (is_numeric($path[1]))
-                tablePage('cervejarias', function () use ($cervejarias) {
-                    return Cervejaria::fromDataList($cervejarias->findAll(), true);
-                });
+            if (is_numeric($path[1])) {
+                cervejariasVer();
+                return;
+            }
+            tablePage('cervejarias', function () use ($cervejarias) {
+                return Cervejaria::fromDataList($cervejarias->findAll(), true);
+            });
     }
 }
