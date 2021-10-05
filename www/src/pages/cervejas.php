@@ -94,7 +94,7 @@
 
 function cervejasPage()
 {
-    global $path;
+    global $path, $cervejas;
     $GLOBALS['title'] = "Cervejas";
 
     $var = 'cervejas';
@@ -108,6 +108,7 @@ function cervejasPage()
             // cervejariasEditar();
             break;
         default:
-            tablePage($var, $data);
+            $items = Cerveja::fromDataList($cervejas->findAll(), true);
+            tablePage($var, $items);
     }
 }

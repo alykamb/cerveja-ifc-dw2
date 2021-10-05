@@ -1,6 +1,6 @@
 <?php
 
-function tablePage($var, $data)
+function tablePage($var, $items)
 {
     global $$var, $path;
 
@@ -8,12 +8,6 @@ function tablePage($var, $data)
     if (isset($path[2]) && $path[1] == "excluir") {
         $success = "<p>Item {$path[2]} removido com sucesso</p>";
         $$var->remove(intval($path[2]));
-    }
-
-    $items = [];
-
-    foreach ($$var->findAll() as $key => $item) {
-        $items[] = $item;
     }
 
     $editar = function ($id) use ($var) {
@@ -34,10 +28,10 @@ function tablePage($var, $data)
         <?= c_table(
             "/$var/novo",
             $items,
-            $data,
             $editar,
             $excluir
-        ); ?>
+        );
+        ?>
     </body>
 
     </html>

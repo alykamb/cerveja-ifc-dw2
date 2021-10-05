@@ -97,12 +97,6 @@ function cervejariasPage()
     global $path, $cervejarias;
     $GLOBALS['title'] = "Cervejarias";
 
-    $var = 'cervejarias';
-    $data = new Cervejaria();
-
-
-    Cervejaria::fromData($cervejarias->findById(1));
-
     switch ($path[1]) {
         case 'novo':
             cervejariasAdicionar();
@@ -111,6 +105,7 @@ function cervejariasPage()
             cervejariasEditar();
             break;
         default:
-            tablePage($var, $data);
+            $items = Cervejaria::fromDataList($cervejarias->findAll(), true);
+            tablePage('cervejarias', $items);
     }
 }
