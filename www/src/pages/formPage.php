@@ -28,8 +28,6 @@ function createFormPage($data, $new, $success, $status, $beforeSave, $beforeRend
         }
     }
 
-    var_dump($_GET);
-
     foreach ($data as $key => $prop) {
         if (isset($_GET[$key]) && $_GET[$key] != NULL) {
             $data->$key->value = $_GET[$key];
@@ -50,7 +48,7 @@ function createFormPage($data, $new, $success, $status, $beforeSave, $beforeRend
         <?php
         if ($status == 'success') {
         ?>
-            <div><b><?= $success($data) ?></b></div>
+            <div class="success"><b><?= $success($data) ?></b></div>
         <?php
         } else {
             echo createFormForInstance($new, $data);

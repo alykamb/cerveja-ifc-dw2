@@ -128,10 +128,10 @@ function cervejasVer()
                         <?php
                         }
                         ?>
-                        <a href="/cervejas/<?= $id ?>/editar-cozinhas">Editar cozinhas</a>
                     <?php
                     }
                     ?>
+                    <a href="/cervejas/<?= $id ?>/editar-cozinhas">Editar cozinhas</a>
                 <?php } ?>
             </div>
         </div>
