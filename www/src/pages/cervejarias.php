@@ -94,9 +94,61 @@ function cervejariasAdicionar()
 
 function cervejariasVer()
 {
-    global $path;
+    global $path, $cervejarias, $cervejas;
+    [, $id] = $path;
 
-    var_dump($path);
+    $data = Cervejaria::fromData($cervejarias->findById($id), true);
+    $GLOBALS['title'] = "Cervejaria - " . $data->nome->value;;
+
+    $cervejas_list = Cerveja::fromDataList($cervejas->findAll("WHERE cervejaria_id = {$data->id->value}"));
+?>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <?= c_head(); ?>
+
+    <body>
+        <?= c_header(); ?>
+        <div class="info">
+            <div class="acoes">
+                <a href="/cervejarias/excluir/<?= $data->id->value ?>">excluir</a>
+                <a href="/cervejarias/editar/<?= $data->id->value ?>">editar</a>
+            </div>
+            <p><b>Nome: </b><?= $data->nome->value; ?></p>
+            <p><small><b>Id:</b> <?= $data->id->value; ?></small></p>
+            <hr>
+            <p><b>Logradouro</b>: <?= $data->endereco->logradouro->value; ?></p>
+            <p><b>Estado</b>: <?= $data->endereco->estado->value; ?></p>
+            <p><b>Cidade</b>: <?= $data->endereco->cidade->value; ?></p>
+            <p><b>Cep</b>: <?= $data->endereco->cep->value; ?></p>
+            <div class="cervejas">
+                <h2>Cervejas</h2>
+                <a href="/cervejas/novo?cervejaria_id=1">Adicionar Cerveja</a>
+                <?php
+                if (sizeof($cervejas_list) == 0) {
+                ?>
+                    <p><i>Nenhuma cerveja cadastrada</i></p>
+                    <?php
+                } else {
+
+                    foreach ($cervejas_list as $cerveja) {
+                    ?>
+                        <p><a href="/cervejas/<?= $cerveja->id->value ?>"><?= $cerveja->nome->value ?></a></p>
+                <?php
+                    }
+                }
+                ?>
+
+            </div>
+        </div>
+
+
+        <?php
+        ?>
+    </body>
+
+    </html>
+<?php
 }
 
 function cervejariasPage()

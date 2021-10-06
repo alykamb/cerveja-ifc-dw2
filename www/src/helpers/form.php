@@ -6,7 +6,7 @@ function createForm($header, $contents)
 ?>
     <div>
         <h3 class="text-lg font-medium leading-6 text-gray-900"><?= $header ?></h3>
-        <form action="/<?= $_GET['path'] ?>" method="POST" autocomplete="off">
+        <form method="POST" autocomplete="off">
             <div class="form-input">
                 <?= $contents ?>
             </div>

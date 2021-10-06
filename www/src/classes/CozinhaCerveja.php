@@ -1,6 +1,6 @@
 <?php
 
-class CozinhaCerveja
+class CozinhaCerveja extends Instance
 {
     public Field $id;
     public Field $cerveja_id;

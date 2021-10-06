@@ -28,6 +28,14 @@ function createFormPage($data, $new, $success, $status, $beforeSave, $beforeRend
         }
     }
 
+    var_dump($_GET);
+
+    foreach ($data as $key => $prop) {
+        if (isset($_GET[$key]) && $_GET[$key] != NULL) {
+            $data->$key->value = $_GET[$key];
+        }
+    }
+
     if (isset($beforeRender)) {
         $beforeRender($_POST);
     }

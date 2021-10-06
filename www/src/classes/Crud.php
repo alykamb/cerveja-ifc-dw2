@@ -78,6 +78,13 @@ class Crud
         return true;
     }
 
+    public function removeWhere(string $where)
+    {
+        $sql = "DELETE FROM $this->table $where";
+        $this->db->query($sql);
+        return true;
+    }
+
     public function update(int $id, $data)
     {
         $sql = "UPDATE $this->table SET ";

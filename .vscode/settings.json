@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.selectionBackground": "#4b0909",
+        "editor.selectionHighlightBackground": "#4b0909",
+        "activityBar.background": "#52045E",
+        "titleBar.activeBackground": "#730683",
+        "titleBar.activeForeground": "#FEFBFF"
+    },
+    "cmake.configureOnOpen": false
+}

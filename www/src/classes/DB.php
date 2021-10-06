@@ -18,7 +18,7 @@ class DB
     public function query($request)
     {
         if (!$result = pg_query($this->db, $request)) {
-            return False;
+            return [];
         }
         $combined = array();
         while ($row = pg_fetch_assoc($result)) {
