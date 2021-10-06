@@ -123,7 +123,7 @@ function cervejariasVer()
             <p><b>Cep</b>: <?= $data->endereco->cep->value; ?></p>
             <div class="cervejas">
                 <h2>Cervejas</h2>
-                <a href="/cervejas/novo?cervejaria_id=1">Adicionar Cerveja</a>
+                <a href="/cervejas/novo?cervejaria_id=<?= $id ?>">Adicionar Cerveja</a>
                 <?php
                 if (sizeof($cervejas_list) == 0) {
                 ?>
